@@ -80,7 +80,7 @@ const StockGraph = ({ data }) => {
       <div className="mt-6">
         <h3 className="text-center font-semibold">Stock Details</h3>
         <div className="overflow-x-auto mt-4">
-          <table className="w-full table-auto border-collapse">
+          <table className="w-full table-auto border-collapse text-sm sm:text-base">
             <thead>
               <tr>
                 <th className="border p-2">Date</th>
