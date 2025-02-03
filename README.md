@@ -96,11 +96,27 @@ Eg.
 - if you can add login with a basic 2FA implementation (we use Firebase!)
 
 ## Running services
-### Instructions to run the UI
-_enter details here!_
+This guide will help you set up and run a Vite app with all the necessary instructions.
 
+## 1. Install Dependencies
+
+First, navigate to your project folder. Then, install the required dependencies by running the following command in your terminal:
+
+```bash
+npm install
+```
+
+## 2. Run the Development Server
+
+After the dependencies are installed, you can start the Vite development server by running the following command:
+
+```bash
+npm run dev
+```
 ### Add a demonstration video 
-_make a demonstration video showcasing frontend not longer than 2-3min, just explain what you have done!_
+
+You can view the video [here](https://drive.google.com/file/d/1Hr5VuqlmUI8wQxVYi3oCZ6iH_wKHAkV_/view?usp=sharing).
+
 
 ### Instructions to run the backend API
 ```bash
