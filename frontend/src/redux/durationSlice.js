@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  selectedDuration: "1D",
+  selectedDuration: "",
 };
 
 const durationSlice = createSlice({

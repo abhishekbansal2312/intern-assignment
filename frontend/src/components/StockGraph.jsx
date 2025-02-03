@@ -50,7 +50,6 @@ const StockGraph = ({ data }) => {
     ],
   };
 
-  // Price Change Chart Data
   const priceChangeChartData = {
     labels: stockData.map((entry) => formatDate(entry.timestamp)),
     datasets: [
@@ -103,26 +102,49 @@ const StockGraph = ({ data }) => {
       </div>
 
       <div className="mt-6">
-        <h3 className="text-center font-semibold">Stock Details</h3>
+        <h3 className="text-center font-semibold text-2xl mb-4 text-gray-800">
+          Stock Details
+        </h3>
         <div className="overflow-x-auto mt-4">
-          <table className="w-full table-auto border-collapse text-sm sm:text-base">
-            <thead>
+          <table className="w-full table-auto border-collapse shadow-lg rounded-lg bg-white">
+            <thead className="bg-gray-200 text-gray-700">
               <tr>
-                <th className="border p-2">Date</th>
-                <th className="border p-2">Price</th>
-                <th className="border p-2">Change</th>
-                <th className="border p-2">Change (%)</th>
-                <th className="border p-2">Volume</th>
+                <th className="border p-4 text-left font-medium">Date</th>
+                <th className="border p-4 text-left font-medium">Price</th>
+                <th className="border p-4 text-left font-medium">Change</th>
+                <th className="border p-4 text-left font-medium">Change (%)</th>
+                <th className="border p-4 text-left font-medium">Volume</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="text-gray-700">
               {stockData.map((entry, index) => (
-                <tr key={index}>
-                  <td className="border p-2">{formatDate(entry.timestamp)}</td>
-                  <td className="border p-2">${entry.price}</td>
-                  <td className="border p-2">{entry.change}</td>
-                  <td className="border p-2">{entry.change_percent}%</td>
-                  <td className="border p-2">{entry.volume}</td>
+                <tr
+                  key={index}
+                  className={`border-t ${
+                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                  }`}
+                >
+                  <td className="border p-4">{formatDate(entry.timestamp)}</td>
+                  <td className="border p-4 text-green-500 font-semibold">
+                    {entry.price}
+                  </td>
+                  <td
+                    className={`border p-4 ${
+                      entry.change >= 0 ? "text-green-500" : "text-red-500"
+                    }`}
+                  >
+                    {entry.change}
+                  </td>
+                  <td
+                    className={`border p-4 ${
+                      entry.change_percent >= 0
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {entry.change_percent}%
+                  </td>
+                  <td className="border p-4">{entry.volume}</td>
                 </tr>
               ))}
             </tbody>
