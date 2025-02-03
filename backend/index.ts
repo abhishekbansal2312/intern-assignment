@@ -10,10 +10,7 @@ const port = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: "https://intern-assignment-olive.vercel.app",
-    credentials: true,
-    methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type,Authorization",
+    origin: true,
   })
 );
 
