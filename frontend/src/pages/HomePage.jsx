@@ -16,8 +16,6 @@ const HomePage = () => {
   const { stocks, selectedStock, stockData, loading, error } = useSelector(
     (state) => state.stock
   );
-  console.log(stockData, "stock data");
-
   const { selectedDuration } = useSelector((state) => state.duration);
 
   useEffect(() => {
@@ -38,38 +36,48 @@ const HomePage = () => {
   };
 
   return (
-    <div className="p-6 space-y-8">
-      <h1 className="text-3xl font-semibold text-center">
+    <div className="p-8 bg-gray-50 min-h-screen ">
+      <h1 className="text-4xl font-bold text-center text-gray-800 mb-8 ">
         Stock Market Dashboard
       </h1>
 
-      <StockDropdown stocks={stocks} onStockSelect={handleStockSelect} />
+      <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg p-6">
+        <div className="space-y-6">
+          <div className="space-y-4">
+            <StockDropdown stocks={stocks} onStockSelect={handleStockSelect} />
+          </div>
 
-      {selectedStock && (
-        <DurationSelector
-          availableDurations={selectedStock.available}
-          selectedDuration={selectedDuration}
-          onDurationChange={handleDurationChange}
-        />
-      )}
+          {selectedStock && (
+            <div className="space-y-4">
+              <DurationSelector
+                availableDurations={selectedStock.available}
+                selectedDuration={selectedDuration}
+                onDurationChange={handleDurationChange}
+              />
+            </div>
+          )}
 
-      {loading && (
-        <div className="flex justify-center items-center mt-8">
-          <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          {loading && (
+            <div className="flex justify-center items-center mt-8">
+              <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          )}
+
+          {error && (
+            <div className="mt-8 text-red-600 text-center">
+              <p>{error}</p>
+            </div>
+          )}
+
+          {stockData && stockData !== 0 ? (
+            <StockGraph data={stockData} />
+          ) : (
+            <p className="text-center text-gray-600">
+              No data available for the selected stock and duration.
+            </p>
+          )}
         </div>
-      )}
-
-      {error && (
-        <div className="mt-8 text-red-600 text-center">
-          <p>{error}</p>
-        </div>
-      )}
-
-      {stockData && stockData !== 0 ? (
-        <StockGraph data={stockData} />
-      ) : (
-        <p>No data available for the selected stock and duration.</p>
-      )}
+      </div>
     </div>
   );
 };
