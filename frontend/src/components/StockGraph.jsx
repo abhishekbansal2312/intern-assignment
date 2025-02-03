@@ -22,12 +22,22 @@ ChartJS.register(
 );
 
 const StockGraph = ({ data }) => {
+  console.log("Stock Data for Chart:", data);
+
+  const stockData = data?.data; // Use optional chaining to safely access data
+
+  // If stockData is undefined or not an array, return early with a loading message
+  if (!stockData || !Array.isArray(stockData)) {
+    return <div>Loading or no data available...</div>;
+  }
+
+  // Map through the stockData to extract timestamps and prices for the chart
   const chartData = {
-    labels: data.map((entry) => entry.timestamp),
+    labels: stockData.map((entry) => entry.timestamp), // Use timestamp for x-axis labels
     datasets: [
       {
         label: "Stock Price",
-        data: data.map((entry) => entry.price),
+        data: stockData.map((entry) => entry.price), // Use price for y-axis data
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         tension: 0.1,

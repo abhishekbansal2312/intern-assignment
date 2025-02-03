@@ -13,10 +13,11 @@ import StockGraph from "../components/StockGraph";
 const HomePage = () => {
   const dispatch = useDispatch();
 
-  // Select state from Redux
   const { stocks, selectedStock, stockData, loading, error } = useSelector(
     (state) => state.stock
   );
+  console.log(stockData, "stock data");
+
   const { selectedDuration } = useSelector((state) => state.duration);
 
   useEffect(() => {
@@ -32,7 +33,6 @@ const HomePage = () => {
   };
 
   const handleDurationChange = (duration) => {
-    // Set the selected duration and fetch the stock data for the selected stock and duration
     dispatch(setDuration(duration));
     if (selectedStock) {
       dispatch(fetchStockData({ stockId: selectedStock.id, duration }));
@@ -71,9 +71,10 @@ const HomePage = () => {
         </div>
       )}
 
-      {/* Stock Graph */}
-      {stockData.length > 0 && !loading && !error && (
+      {stockData && stockData !== 0 ? (
         <StockGraph data={stockData} />
+      ) : (
+        <p>No data available for the selected stock and duration.</p>
       )}
     </div>
   );
