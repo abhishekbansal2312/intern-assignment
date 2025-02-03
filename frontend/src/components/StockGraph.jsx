@@ -79,28 +79,30 @@ const StockGraph = ({ data }) => {
       <Line data={chartData} options={options} />
       <div className="mt-6">
         <h3 className="text-center font-semibold">Stock Details</h3>
-        <table className="w-full table-auto mt-4 border-collapse">
-          <thead>
-            <tr>
-              <th className="border p-2">Date</th>
-              <th className="border p-2">Price</th>
-              <th className="border p-2">Change</th>
-              <th className="border p-2">Change (%)</th>
-              <th className="border p-2">Volume</th>
-            </tr>
-          </thead>
-          <tbody>
-            {stockData.map((entry, index) => (
-              <tr key={index}>
-                <td className="border p-2">{formatDate(entry.timestamp)}</td>
-                <td className="border p-2">${entry.price}</td>
-                <td className="border p-2">{entry.change}</td>
-                <td className="border p-2">{entry.change_percent}%</td>
-                <td className="border p-2">{entry.volume}</td>
+        <div className="overflow-x-auto mt-4">
+          <table className="w-full table-auto border-collapse">
+            <thead>
+              <tr>
+                <th className="border p-2">Date</th>
+                <th className="border p-2">Price</th>
+                <th className="border p-2">Change</th>
+                <th className="border p-2">Change (%)</th>
+                <th className="border p-2">Volume</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {stockData.map((entry, index) => (
+                <tr key={index}>
+                  <td className="border p-2">{formatDate(entry.timestamp)}</td>
+                  <td className="border p-2">${entry.price}</td>
+                  <td className="border p-2">{entry.change}</td>
+                  <td className="border p-2">{entry.change_percent}%</td>
+                  <td className="border p-2">{entry.volume}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
