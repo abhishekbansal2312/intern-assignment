@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3000/api/stocks";
+const API_BASE_URL = "https://intern-assignment-sz92.onrender.com/api/stocks";
 
 const initialState = {
   stocks: [],
@@ -11,17 +11,15 @@ const initialState = {
   error: null,
 };
 
-// Async action to fetch all stocks
 export const fetchStocks = createAsyncThunk("stocks/fetchStocks", async () => {
   try {
     const response = await axios.get(API_BASE_URL, { withCredentials: true });
-    return response.data; // Assumed that response.data is an array of stocks
+    return response.data;
   } catch (error) {
     throw error.response?.data || error.message;
   }
 });
 
-// Async action to fetch stock data based on selected stock and duration
 export const fetchStockData = createAsyncThunk(
   "stocks/fetchStockData",
   async ({ stockId, duration }) => {
@@ -31,7 +29,7 @@ export const fetchStockData = createAsyncThunk(
         { duration },
         { withCredentials: true }
       );
-      return response.data; // Assumed that response.data contains the stock data
+      return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
     }
@@ -51,7 +49,6 @@ const stockSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Handle fetchStocks actions
       .addCase(fetchStocks.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -65,14 +62,13 @@ const stockSlice = createSlice({
         state.error = action.error.message;
       })
 
-      // Handle fetchStockData actions
       .addCase(fetchStockData.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchStockData.fulfilled, (state, action) => {
         state.loading = false;
-        state.stockData = action.payload; // Store the fetched stock data
+        state.stockData = action.payload;
       })
       .addCase(fetchStockData.rejected, (state, action) => {
         state.loading = false;

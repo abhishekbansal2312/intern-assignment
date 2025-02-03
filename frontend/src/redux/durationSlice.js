@@ -1,9 +1,7 @@
-// src/redux/durationSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
-// Initial state
 const initialState = {
-  selectedDuration: "1D", // Default duration (1 day)
+  selectedDuration: "1D",
 };
 
 const durationSlice = createSlice({

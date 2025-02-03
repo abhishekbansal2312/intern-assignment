@@ -21,15 +21,13 @@ const HomePage = () => {
   const { selectedDuration } = useSelector((state) => state.duration);
 
   useEffect(() => {
-    // Fetch stocks when the page is loaded
     dispatch(fetchStocks());
   }, [dispatch]);
 
   const handleStockSelect = (stockId) => {
-    // Find the selected stock object from the stocks list
     const selected = stocks.find((stock) => stock.id === stockId);
     dispatch(setSelectedStock(selected));
-    dispatch(setDuration("")); // Reset duration to default value
+    dispatch(setDuration(""));
   };
 
   const handleDurationChange = (duration) => {
@@ -45,10 +43,8 @@ const HomePage = () => {
         Stock Market Dashboard
       </h1>
 
-      {/* Stock selection dropdown */}
       <StockDropdown stocks={stocks} onStockSelect={handleStockSelect} />
 
-      {/* Show Duration Selector if a stock is selected */}
       {selectedStock && (
         <DurationSelector
           availableDurations={selectedStock.available}
@@ -57,14 +53,12 @@ const HomePage = () => {
         />
       )}
 
-      {/* Loading state */}
       {loading && (
         <div className="flex justify-center items-center mt-8">
           <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
       )}
 
-      {/* Error handling */}
       {error && (
         <div className="mt-8 text-red-600 text-center">
           <p>{error}</p>
