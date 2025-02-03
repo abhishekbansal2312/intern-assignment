@@ -13,7 +13,7 @@ const initialState = {
 
 export const fetchStocks = createAsyncThunk("stocks/fetchStocks", async () => {
   try {
-    const response = await axios.get(API_BASE_URL, { withCredentials: true });
+    const response = await axios.get(API_BASE_URL);
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;
@@ -24,11 +24,9 @@ export const fetchStockData = createAsyncThunk(
   "stocks/fetchStockData",
   async ({ stockId, duration }) => {
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/${stockId}`,
-        { duration },
-        { withCredentials: true }
-      );
+      const response = await axios.post(`${API_BASE_URL}/${stockId}`, {
+        duration,
+      });
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
