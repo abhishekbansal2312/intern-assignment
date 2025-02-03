@@ -3,12 +3,52 @@ import axios from "axios";
 
 const API_BASE_URL = "https://intern-assignment-sz92.onrender.com/api/stocks";
 
+let globalAbortController = null;
+
 const initialState = {
   stocks: [],
   selectedStock: null,
   stockData: [],
   loading: false,
   error: null,
+};
+
+const shortPolling = async (stockId, duration, dispatch, signal) => {
+  try {
+    while (!signal.aborted) {
+      const response = await axios.post(
+        `${API_BASE_URL}/${stockId}`,
+        { duration },
+        { signal }
+      );
+      const data = response.data;
+
+      console.log("Polling Data:", data);
+
+      dispatch(updateStockData(data));
+
+      if (data.status === "COMPLETE") {
+        console.log("Polling complete.");
+        return data;
+      }
+
+      await new Promise((resolve, reject) => {
+        const timeout = setTimeout(resolve, 2000);
+        signal.addEventListener("abort", () => {
+          clearTimeout(timeout);
+          console.log("Polling aborted.");
+          reject(new Error("Polling Aborted"));
+        });
+      });
+    }
+  } catch (error) {
+    if (axios.isCancel(error) || error.message === "Polling Aborted") {
+      console.log("Polling stopped.");
+      return null;
+    }
+    console.error("Polling error:", error);
+    throw error;
+  }
 };
 
 export const fetchStocks = createAsyncThunk("stocks/fetchStocks", async () => {
@@ -22,14 +62,22 @@ export const fetchStocks = createAsyncThunk("stocks/fetchStocks", async () => {
 
 export const fetchStockData = createAsyncThunk(
   "stocks/fetchStockData",
-  async ({ stockId, duration }) => {
+  async ({ stockId, duration }, { dispatch, rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/${stockId}`, {
+      if (globalAbortController) globalAbortController.abort();
+
+      globalAbortController = new AbortController();
+
+      dispatch(clearStockData());
+
+      return await shortPolling(
+        stockId,
         duration,
-      });
-      return response.data;
+        dispatch,
+        globalAbortController.signal
+      );
     } catch (error) {
-      throw error.response?.data || error.message;
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -43,6 +91,11 @@ const stockSlice = createSlice({
     },
     clearStockData: (state) => {
       state.stockData = [];
+      state.loading = false;
+      state.error = null;
+    },
+    updateStockData: (state, action) => {
+      state.stockData = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -66,15 +119,16 @@ const stockSlice = createSlice({
       })
       .addCase(fetchStockData.fulfilled, (state, action) => {
         state.loading = false;
-        state.stockData = action.payload;
+        state.stockData = action.payload || state.stockData;
       })
       .addCase(fetchStockData.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload;
       });
   },
 });
 
-export const { setSelectedStock, clearStockData } = stockSlice.actions;
+export const { setSelectedStock, clearStockData, updateStockData } =
+  stockSlice.actions;
 
 export default stockSlice.reducer;
