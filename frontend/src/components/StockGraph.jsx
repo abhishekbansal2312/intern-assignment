@@ -35,7 +35,6 @@ const StockGraph = ({ data }) => {
     return date.toLocaleDateString();
   };
 
-  // Stock Price Chart Data
   const stockPriceChartData = {
     labels: stockData.map((entry) => formatDate(entry.timestamp)),
     datasets: [
