@@ -115,7 +115,7 @@ npm run dev
 ```
 ### Add a demonstration video 
 
-You can view the video [here](https://drive.google.com/file/d/1Hr5VuqlmUI8wQxVYi3oCZ6iH_wKHAkV_/view?usp=sharing).
+You can view the video [here](https://youtu.be/IUMphIrG7kc?si=_xj-QQd7AbJCNwrv).
 
 
 ### Instructions to run the backend API
