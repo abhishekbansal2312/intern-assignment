@@ -57,7 +57,21 @@ const StockGraph = ({ data }) => {
         data: stockData.map((entry) => entry.change_percent),
         borderColor: "rgba(255, 99, 132, 1)",
         backgroundColor: "rgba(255, 99, 132, 0.2)",
-        tension: 0.1,
+        tension: 0.2,
+        fill: false,
+      },
+    ],
+  };
+
+  const volumeChartData = {
+    labels: stockData.map((entry) => formatDate(entry.timestamp)),
+    datasets: [
+      {
+        label: "Volume Change",
+        data: stockData.map((entry) => entry.volume),
+        borderColor: "rgba(54, 162, 235, 1)",
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        tension: 0.2,
         fill: false,
       },
     ],
@@ -98,6 +112,13 @@ const StockGraph = ({ data }) => {
           Price Change (%) Over Time
         </h3>
         <Line data={priceChangeChartData} options={options} />
+      </div>
+
+      <div className="mb-6">
+        <h3 className="text-center font-semibold mb-4">
+          Volume Change Over Time
+        </h3>
+        <Line data={volumeChartData} options={options} />
       </div>
 
       <div className="mt-6">
